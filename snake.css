@@ -1,0 +1,92 @@
+body {
+    font-family: system-ui;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #e5d2e9;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+
+}
+
+.left-column {
+    text-align: center;
+    padding: 20px;
+    height: 100%;
+    width: 20%;
+
+    display: flex;
+    /* Enable flex layout */
+    flex-direction: column;
+    /* Vertically align items */
+    justify-content: center;
+    /* Center items vertically */
+}
+
+.right-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    margin: 0;
+    font-size: 70px;
+}
+
+.scores h2,
+h3 {
+    margin: 0;
+}
+
+button {
+    align-self: center;
+    margin-top: 10px;
+    width: 40%;
+    height: 5%;
+    background-color: black;
+    color: white;
+    font-size: 20px;
+    border: 3px solid grey;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#board {
+    border-radius: 2.5%;
+    max-width: 80%;
+    border: 10px solid grey;
+    /* Set a maximum width for the board */
+}
+
+@media (max-width: 768px) {
+    .left-column {
+        width: 40%;
+        /* Adjust the width for smaller screens */
+    }
+    /* Define styles for screens smaller than 768px */
+    #board {
+        max-width: 70%;
+    }
+}
+
+@media (max-width: 480px) {
+    .left-column {
+        width: 60%;
+        /* Further adjust the width for even smaller screens */
+    }
+
+    /* Define styles for screens smaller than 480px */
+    #board {
+        max-width: 60%;
+    }
+}
