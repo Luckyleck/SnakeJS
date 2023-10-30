@@ -28,7 +28,7 @@ let gameOver = false;
 let score = 0;
 let highscore = 0;
 
-let scoreText;
+let scoreText = 0;
 let highScoreText;
 
 window.onload = function () {
