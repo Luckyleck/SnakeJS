@@ -85,7 +85,7 @@ function update() {
 
     context.fillRect(snakeX, snakeY, blockSize, blockSize);
     for (let i = 0; i < snakeBody.length; i++) {
-        context.fillRect(snakeBody[i][0], snakeBody[i][1], blockSize, blockSize);
+        drawSnakeSegment(snakeBody[i][0], snakeBody[i][1]);
     }
 
     // game over conditions
@@ -103,6 +103,14 @@ function update() {
             alert("Game Over");
         }
     }
+}
+
+function drawSnakeSegment(x, y) {
+    context.fillStyle = 'lime';
+    context.fillRect(x, y, blockSize, blockSize);
+    context.strokeStyle = 'black'; // Outline color
+    context.lineWidth = 2; // Outline width
+    context.strokeRect(x, y, blockSize, blockSize);
 }
 
 function placeFood() {
