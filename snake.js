@@ -114,8 +114,39 @@ function drawSnakeSegment(x, y) {
 }
 
 function placeFood() {
-    foodX = Math.floor(Math.random() * cols) * blockSize;
-    foodY = Math.floor(Math.random() * rows) * blockSize;
+    const emptyCells = [];
+
+    // Create a list of all empty cells on the board
+    for (let x = 0; x < cols; x++) {
+        for (let y = 0; y < rows; y++) {
+            const cellX = x * blockSize;
+            const cellY = y * blockSize;
+            let isOccupied = false;
+
+            // Check if the cell is occupied by the snake's head or body
+            if (cellX === snakeX && cellY === snakeY) {
+                isOccupied = true;
+            }
+
+            for (let i = 0; i < snakeBody.length; i++) {
+                if (cellX === snakeBody[i][0] && cellY === snakeBody[i][1]) {
+                    isOccupied = true;
+                    break;
+                }
+            }
+
+            if (!isOccupied) {
+                emptyCells.push({ x: cellX, y: cellY });
+            }
+        }
+    }
+
+    // Randomly select an empty cell for the food
+    if (emptyCells.length > 0) {
+        const randomIndex = Math.floor(Math.random() * emptyCells.length);
+        foodX = emptyCells[randomIndex].x;
+        foodY = emptyCells[randomIndex].y;
+    }
 }
 
 function changeDirection(e) {
