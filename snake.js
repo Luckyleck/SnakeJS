@@ -32,6 +32,10 @@ let scoreText;
 let highScoreText;
 let gameOverText;
 
+//options
+
+let hasWalls = false;
+
 window.onload = function () {
     board = document.getElementById('board')
     board.height = rows * blockSize;
@@ -44,14 +48,38 @@ window.onload = function () {
     scoreText = document.getElementById('score')
     scoreText.textContent = scoreText.textContent = `Score : ${score}`;
     highScoreText = document.getElementById('highscore')
-    highScoreText.textContext = `Score : ${highscore}`
+    highScoreText.textContent = `Score : ${highscore}`
     gameOverText = document.getElementById('gameOver')
 
-    setInterval(update, 1000 / 10); // every one hundred milliseconds
+    const optionsButton = document.getElementById('options');
+    const optionsContent = document.getElementById('options-content');
+
+    optionsButton.addEventListener('click', function () {
+        if (optionsContent.style.display === 'block') {
+            optionsContent.style.display = 'none';
+        } else {
+            optionsContent.style.display = 'block';
+        }
+    });
+
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            if (this.name === 'hasWalls') {
+                hasWalls = this.checked;
+                console.log('Walls turned ' + (hasWalls ? 'on' : 'off'));
+            }
+        })
+    })
+
+
 
     //reset
     const resetButton = document.getElementById('reset-button');
     resetButton.addEventListener('click', resetGame)
+
+    // Starting game loop
+    setInterval(update, 1000 / 10); // every one hundred milliseconds
 
 }
 
@@ -83,22 +111,28 @@ function update() {
     }
 
     context.fillStyle = 'lime';
-    snakeX = (snakeX + velocityX * blockSize + cols * blockSize) % (cols * blockSize); // remove modulo to turn on boundary detection
-    snakeY = (snakeY + velocityY * blockSize + rows * blockSize) % (rows * blockSize);
+
+    if (hasWalls) {
+        snakeX += velocityX * blockSize; snakeY += velocityY * blockSize;
+    } else {
+        snakeX = (snakeX + velocityX * blockSize + cols * blockSize) % (cols * blockSize);
+        snakeY = (snakeY + velocityY * blockSize + rows * blockSize) % (rows * blockSize);
+    }
 
     context.fillRect(snakeX, snakeY, blockSize, blockSize);
     for (let i = 0; i < snakeBody.length; i++) {
         drawSnakeSegment(snakeBody[i][0], snakeBody[i][1]);
     }
 
-    // game over conditions
+    console.log(hasWalls)
 
-    // boundary detection
-
-    // if (snakeX < 0 || snakeX > cols * blockSize - 1 || snakeY < 0 || snakeY > rows * blockSize - 1) {
-    //     gameOver = true;
-    //     alert("Game Over");
-    // }
+    if (hasWalls) {
+        console.log('checking walls')
+        if (snakeX < 0 || snakeX > cols * blockSize - 1 || snakeY < 0 || snakeY > rows * blockSize - 1) {
+            gameOver = true;
+            gameOverText.textContent = 'Game Over!'
+        }
+    }
 
     for (let i = 0; i < snakeBody.length; i++) {
         if (snakeX == snakeBody[i][0] && snakeY == snakeBody[i][1]) {
