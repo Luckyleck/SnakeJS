@@ -30,6 +30,7 @@ let highscore = 0;
 
 let scoreText;
 let highScoreText;
+let gameOverText;
 
 window.onload = function () {
     board = document.getElementById('board')
@@ -44,6 +45,8 @@ window.onload = function () {
     scoreText.textContent = scoreText.textContent = `Score : ${score}`;
     highScoreText = document.getElementById('highscore')
     highScoreText.textContext = `Score : ${highscore}`
+    gameOverText = document.getElementById('gameOver')
+
     setInterval(update, 1000 / 10); // every one hundred milliseconds
 
     //reset
@@ -100,7 +103,7 @@ function update() {
     for (let i = 0; i < snakeBody.length; i++) {
         if (snakeX == snakeBody[i][0] && snakeY == snakeBody[i][1]) {
             gameOver = true;
-            alert("Game Over");
+            gameOverText.textContent = 'Game Over!'
         }
     }
 }
@@ -198,6 +201,7 @@ function resetGame() {
 
     score = 0;
     scoreText.textContent = `Score : ${score}`;
+    gameOverText.textContent = null
 
     context.clearRect(0, 0, board.width, board.height);
     placeFood();
