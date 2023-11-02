@@ -120,3 +120,13 @@ button {
         max-width: 60%;
     }
 }
+
+label {
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+input {
+    scale: 1.5;
+    vertical-align: middle;
+}

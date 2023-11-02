@@ -32,6 +32,13 @@ let scoreText;
 let highScoreText;
 let gameOverText;
 
+let lastKeyPressed;
+
+// animation
+let growing = false; // Indicates if the snake is currently growing
+let growthDuration = 300; // Duration of the growth animation in milliseconds (0.5 seconds)
+let growthStartTime = 0; // Time when the growth animation started
+
 //options
 
 let hasWalls = false;
@@ -48,7 +55,7 @@ window.onload = function () {
     scoreText = document.getElementById('score')
     scoreText.textContent = scoreText.textContent = `Score : ${score}`;
     highScoreText = document.getElementById('highscore')
-    highScoreText.textContent = `Score : ${highscore}`
+    highScoreText.textContent = `Highscore : 0`
     gameOverText = document.getElementById('gameOver')
 
     const optionsButton = document.getElementById('options');
@@ -96,6 +103,9 @@ function update() {
 
     //eating food
     if (snakeX == foodX && snakeY == foodY) {
+
+        growing = true;
+        growthStartTime = Date.now();
         snakeBody.push([foodX, foodY]);
         score += 1;
         scoreText.textContent = `Score : ${score}`; // Update the displayed score
@@ -119,7 +129,12 @@ function update() {
         snakeY = (snakeY + velocityY * blockSize + rows * blockSize) % (rows * blockSize);
     }
 
+    
+
     context.fillRect(snakeX, snakeY, blockSize, blockSize);
+
+    
+
     for (let i = 0; i < snakeBody.length; i++) {
         drawSnakeSegment(snakeBody[i][0], snakeBody[i][1]);
     }
@@ -131,6 +146,21 @@ function update() {
         if (snakeX < 0 || snakeX > cols * blockSize - 1 || snakeY < 0 || snakeY > rows * blockSize - 1) {
             gameOver = true;
             gameOverText.textContent = 'Game Over!'
+        }
+    }
+
+    if (growing) {
+        // Check if the growth animation has finished
+        const currentTime = Date.now();
+        if (currentTime - growthStartTime >= growthDuration) {
+            growing = false;
+        } else {
+            // Double the snake head size during the growth animation
+            let direction = lastKeyPressed === 'W' ? [snakeX - blockSize / 2, snakeY] :
+                lastKeyPressed === 'S' ? [snakeX - blockSize / 2, snakeY] :
+                    lastKeyPressed === 'A' ? [snakeX, snakeY - blockSize / 2] :
+                        lastKeyPressed === 'D' ? [snakeX, snakeY - blockSize / 2] : null
+            context.fillRect(direction[0], direction[1], blockSize * 2, blockSize * 2);
         }
     }
 
@@ -193,6 +223,7 @@ function changeDirection(e) {
             if (velocityY !== 1) {
                 velocityX = 0;
                 velocityY = -1;
+                lastKeyPressed = 'W'
             }
             break;
         case 'ArrowDown':
@@ -200,6 +231,7 @@ function changeDirection(e) {
             if (velocityY !== -1) {
                 velocityX = 0;
                 velocityY = 1;
+                lastKeyPressed = 'S'
             }
             break;
         case 'ArrowLeft':
@@ -207,6 +239,7 @@ function changeDirection(e) {
             if (velocityX !== 1) {
                 velocityX = -1;
                 velocityY = 0;
+                lastKeyPressed = 'A'
             }
             break;
         case 'ArrowRight':
@@ -214,6 +247,7 @@ function changeDirection(e) {
             if (velocityX !== -1) {
                 velocityX = 1;
                 velocityY = 0;
+                lastKeyPressed = 'D'
             }
             break;
     }
