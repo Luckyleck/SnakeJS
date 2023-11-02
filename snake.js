@@ -36,7 +36,7 @@ let lastKeyPressed;
 
 // animation
 let growing = false; // Indicates if the snake is currently growing
-let growthDuration = 300; // Duration of the growth animation in milliseconds (0.5 seconds)
+let growthDuration = 100; // Duration of the growth animation in milliseconds
 let growthStartTime = 0; // Time when the growth animation started
 
 //options
@@ -224,6 +224,8 @@ function changeDirection(e) {
                 velocityX = 0;
                 velocityY = -1;
                 lastKeyPressed = 'W'
+                // console.log(lastKeyPressed)
+
             }
             break;
         case 'ArrowDown':
@@ -232,6 +234,7 @@ function changeDirection(e) {
                 velocityX = 0;
                 velocityY = 1;
                 lastKeyPressed = 'S'
+                // console.log(lastKeyPressed)
             }
             break;
         case 'ArrowLeft':
@@ -240,6 +243,8 @@ function changeDirection(e) {
                 velocityX = -1;
                 velocityY = 0;
                 lastKeyPressed = 'A'
+                // console.log(lastKeyPressed)
+
             }
             break;
         case 'ArrowRight':
@@ -248,6 +253,8 @@ function changeDirection(e) {
                 velocityX = 1;
                 velocityY = 0;
                 lastKeyPressed = 'D'
+                // console.log(lastKeyPressed)
+
             }
             break;
     }
